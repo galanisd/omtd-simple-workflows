@@ -48,24 +48,34 @@ public class PipelineLDAInferenceForPDFs{
         	outDirF.mkdirs();
         }
         
+        // -- Create the pipeline. --
+         
         //CollectionReaderDescription reader = createReaderDescription(TextReader.class,
         //       TextReader.PARAM_SOURCE_LOCATION, inputDir,
-        //        TextReader.PARAM_LANGUAGE, LANGUAGE);
+        //       TextReader.PARAM_LANGUAGE, LANGUAGE);
         
+        // PDF Reader
         CollectionReaderDescription reader = createReaderDescription(PdfReader.class, PdfReader.PARAM_SOURCE_LOCATION, inputDir,
 				PdfReader.PARAM_PATTERNS, "[+]**/*.pdf", 
 				PdfReader.PARAM_LANGUAGE, LANGUAGE);
 				//);
 		
+        // Sentence Splitting - Tokenization
         AnalysisEngineDescription segmenter = createEngineDescription(OpenNlpSegmenter.class);
+        
+        // Stopword remover
         AnalysisEngineDescription stopwordRemover = createEngineDescription(StopWordRemover.class,
                 StopWordRemover.PARAM_MODEL_LOCATION, STOPWORD_FILE);
+        
+        // LDA inferencer.
         AnalysisEngineDescription lda = createEngineDescription(MalletTopicModelInferencer.class,
                 MalletTopicModelInferencer.PARAM_MODEL_LOCATION, modelFile);
 
+        // XMI writer.
         AnalysisEngineDescription xmiWriter = createEngineDescription(XmiWriter.class, XmiWriter.PARAM_TARGET_LOCATION, outDir,
 				XmiWriter.PARAM_OVERWRITE, Boolean.TRUE);
         
+        // -- Execute the pipeline. --
         PrintStream p = null;
         for (JCas jcas : SimplePipeline.iteratePipeline(reader, segmenter, stopwordRemover, lda, xmiWriter)) {
         	
@@ -84,4 +94,5 @@ public class PipelineLDAInferenceForPDFs{
             
         }
     }
+    
 }
