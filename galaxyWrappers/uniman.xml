@@ -1,0 +1,21 @@
+<tool id="UNIMAN" name="UNIMAN tools" version="0.1">
+  <description>Metabolites</description>
+  	<requirements>
+	  <container type="docker">omtd-simple-workflows-docker</container>
+	</requirements>
+  <command>
+      mkdir tmp;
+      #for $file in $pdf_files
+          cp $file tmp/$file.element_identifier;
+      #end for
+      Linux_runUNIMAN.sh -i tmp -o $output.job_working_directory/working/out/
+  </command>
+  <inputs>
+    <param type="data" name="pdf_files" label="Input PDF files" format="pdf" multiple="true" />
+  </inputs>
+  <outputs>
+    <collection name="output" type="list" label="XML files">
+        <discover_datasets pattern="__designation__" directory="out" format="xml" visible="false" />
+    </collection>
+  </outputs>
+</tool>

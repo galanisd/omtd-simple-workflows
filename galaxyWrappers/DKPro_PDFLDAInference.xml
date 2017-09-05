@@ -1,0 +1,22 @@
+<tool id="DKPro_PDFLDAInference" name="PDFLDAInference" version="0.1">
+  <description>PDF2XMI example PDFLDAInference</description>
+  	<requirements>
+	  <container type="docker">omtd-simple-workflows-docker</container>
+	</requirements>
+  <command>
+      mkdir tmp;
+      #for $file in $pdf_files
+          cp $file tmp/$file.element_identifier;
+      #end for
+      Linux_runDKPro.sh eu.openminted.simplewokflows.dkpro.PipelineLDAInferenceForPDFs tmp $model $output.job_working_directory/working/out/
+  </command>
+  <inputs>
+    <param type="data" name="pdf_files" label="Input PDF files" format="pdf" multiple="true" />
+    <param type="data" name="model" label="Model txt file" format="txt"/>
+  </inputs>
+  <outputs>
+    <collection name="output" type="list" label="XML files">
+        <discover_datasets pattern="__designation__" directory="out" format="xml" visible="false" />
+    </collection>
+  </outputs>
+</tool>

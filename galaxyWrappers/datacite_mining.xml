@@ -1,0 +1,21 @@
+<tool id="datacite_mining" name="Datacite Mining" version="0.1">
+  <description>OMTD Datacite Mining</description>
+  	<requirements>
+	  <container type="docker">omtd-datacite-mining</container>
+	</requirements>
+  <command>
+      mkdir -p $output.job_working_directory/working/out;
+      #for $file in $xml_files
+          cat $file | python /var/lib/madis/src/mexec.py -f /usr/app/src/finddatacite.sql
+              -d /usr/app/src/datacite.db > $output.job_working_directory/working/out/$(file.element_identifier).json;
+      #end for
+  </command>
+  <inputs>
+    <param type="data_collection" collection_type="list" name="xml_files" label="Input XML files" format="xml"/>
+  </inputs>
+  <outputs>
+    <collection name="output" type="list" label="DataciteMining JSON files">
+        <discover_datasets pattern="__designation__" directory="out" format="json" visible="false" />
+    </collection>
+  </outputs>
+</tool>

@@ -1,0 +1,21 @@
+<tool id="SSHNER" name="SSHNER" version="0.1">
+  <description>NER for SSH</description>
+  	<requirements>
+	  <container type="docker">omtd-simple-workflows-docker</container>
+	</requirements>
+  <command>
+     mkdir tmp;
+     #for $file in $pdf_files
+     	cp $file tmp/$file.element_identifier;
+     #end for
+     ls -l tmp
+  </command>
+  <inputs>
+    <param type="data_collection" collection_type="list" name="pdf_files" label="Input PDF files" format="pdf"/>
+  </inputs>
+  <outputs>
+    <collection name="output" type="list" label="XML files">
+        <discover_datasets pattern="__designation__" directory="out" format="xml" visible="true" />
+    </collection>
+  </outputs>
+</tool>
