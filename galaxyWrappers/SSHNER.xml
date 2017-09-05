@@ -1,14 +1,14 @@
 <tool id="SSHNER" name="SSHNER" version="0.1">
   <description>NER for SSH</description>
-  	<requirements>
-	  <container type="docker">omtd-simple-workflows-docker</container>
-	</requirements>
+        <requirements>
+          <container type="docker">omtd-simple-workflows-docker</container>
+        </requirements>
   <command>
      mkdir tmp;
      #for $file in $pdf_files
-     	cp $file tmp/$file.element_identifier;
+        cp $file tmp/$file.element_identifier;
      #end for
-     ls -l tmp
+     java -jar /opt/omtd-simple-workflows/omtd-simple-workflows-sshner/target/omtd-simple-workflows-sshner-0.0.1-SNAPSHOT-exec.jar eu.openminted.simpleworkflows.sshner.PipelineNERInferenceForPDFs tmp $output.job_working_directory/working/out/
   </command>
   <inputs>
     <param type="data_collection" collection_type="list" name="pdf_files" label="Input PDF files" format="pdf"/>
