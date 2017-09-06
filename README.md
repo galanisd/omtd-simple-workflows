@@ -1,6 +1,6 @@
 # OMTD-SIMPLE-WORKFLOWS #
 
-Provides scripts and code for executing workflows within a docker container. 
+Provides scripts and code for executing some workflows within a docker container. 
 
 ## Installation ##
 
